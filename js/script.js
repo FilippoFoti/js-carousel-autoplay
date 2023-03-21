@@ -28,51 +28,60 @@ secondBonus[activeItemIndex].classList.add("bonus-active");
 // Click primo bottone
 const nextBtn = document.querySelector(".next");
 nextBtn.addEventListener("click", function() {
+    nextSlide();
+    clearInterval(autoplayInterval);
+    autoplayInterval = setInterval(nextSlide, 3000);
+})
+
+// Click secondo bottone 
+const prevBtn = document.querySelector(".prev");
+prevBtn.addEventListener("click", function () {
+    prevSlide();
+    clearInterval(autoplayInterval);
+    autoplayInterval = setInterval(nextSlide, 3000);
+});
+
+// AUTOPLAY
+
+let autoplayInterval;
+
+function nextSlide() {
     prevBtn.classList.remove("hidden");
     if (activeItemIndex < (itemsArray.length - 1)) {
-        // Rimuovo active dall'img precedente
         itemsArray[activeItemIndex].classList.remove("active");
         secondBonus[activeItemIndex].classList.remove("bonus-active");
 
-        // Incremento
         activeItemIndex++;
 
-        // Aggiungo active alla nuova img
         itemsArray[activeItemIndex].classList.add("active");
         secondBonus[activeItemIndex].classList.add("bonus-active");
-
     } else {
-        // Rimuovo active dall'img precedente
         itemsArray[activeItemIndex].classList.remove("active");
         secondBonus[activeItemIndex].classList.remove("bonus-active");
 
         activeItemIndex = 0;
 
-        // Aggiungo active alla nuova img
         itemsArray[activeItemIndex].classList.add("active");
         secondBonus[activeItemIndex].classList.add("bonus-active");
     }
-});
+}
 
-// Click secondo bottone 
-const prevBtn = document.querySelector(".prev");
-
-prevBtn.addEventListener("click", function () {
+function prevSlide() {
     if (activeItemIndex > 0) {
-    // Rimuovo l'hidden dal bottone
-    nextBtn.classList.remove("hidden");
-
-    // Rimuovo active
-    itemsArray[activeItemIndex].classList.remove("active");
-    secondBonus[activeItemIndex].classList.remove("bonus-active");
-
-    // Decremento
-    activeItemIndex--;
-
-    // aggiungo active alla nuova img
-    itemsArray[activeItemIndex].classList.add("active");
-    secondBonus[activeItemIndex].classList.add("bonus-active");
-
+        // Rimuovo l'hidden dal bottone
+        nextBtn.classList.remove("hidden");
+    
+        // Rimuovo active
+        itemsArray[activeItemIndex].classList.remove("active");
+        secondBonus[activeItemIndex].classList.remove("bonus-active");
+    
+        // Decremento
+        activeItemIndex--;
+    
+        // aggiungo active alla nuova img
+        itemsArray[activeItemIndex].classList.add("active");
+        secondBonus[activeItemIndex].classList.add("bonus-active");
+    
     } else {
         // Rimuovo active
         itemsArray[activeItemIndex].classList.remove("active");
@@ -84,4 +93,25 @@ prevBtn.addEventListener("click", function () {
         itemsArray[activeItemIndex].classList.add("active");
         secondBonus[activeItemIndex].classList.add("bonus-active");
     }
+}
+
+
+function startAutoplay() {
+    autoplayInterval = setInterval(nextSlide, 3000);
+}
+
+function stopAutoplay() {
+    clearInterval(autoplayInterval);
+}
+
+startAutoplay();
+
+// Bonus 2
+
+itemsContainer.addEventListener("mouseover", function() {
+    clearInterval(autoplayInterval)
 });
+
+itemsContainer.addEventListener("mouseout", function() {
+    autoplayInterval = setInterval(nextSlide, 3000)
+})
